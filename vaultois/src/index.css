@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer components {
+  .logo-margin {
+    margin: 0 10px;
+    width: 180px;
+    min-width: fit-content;
+  }
+
+  .body-margin-padding {
+    padding-top: 28px;
+    padding-bottom: 20px;
+  }
+
+  .shadow-angle {
+    box-shadow: 6px 4px 10px rgba(0, 0, 0, 0.20);
+  }
+
+}
