@@ -38,112 +38,112 @@ const Manager = () => {
 
   /* --------------------------------------------------------Local Storage------------------------------------------------------- */
 
-  // // Local Storage
-  // useEffect(() => {
-  //   let passwords = localStorage.getItem("passwords");
-  //   if (passwords) {
-  //     setPasswordArray(JSON.parse(passwords));
-  //   }
-  // }, []);
-
-  // // Local Storage
-  // const savePassword = () => {
-  //   if (form.id) {
-  //     let item = passwordArray.filter((item) => item.id == form.id)[0];
-  //     item.username = form.username;
-  //     item.password = form.password;
-  //     let passwordArr = [...passwordArray.filter((i) => i.id != form.id), item];
-  //     setPasswordArray(passwordArr);
-  //     setForm(emptyForm);
-  //     localStorage.setItem("passwords", JSON.stringify(passwordArr));
-  //     toast("Password saved successfully!");
-  //   } else if (form.site && form.username && form.password) {
-  //     let formWithId = { ...form, id: uuidv4() };
-  //     setPasswordArray([...passwordArray, formWithId]);
-  //     localStorage.setItem(
-  //       "passwords",
-  //       JSON.stringify([...passwordArray, formWithId])
-  //     );
-  //     toast("Password saved successfully!");
-  //   }
-  // };
-
-  // // Local Storage
-  // const editPassword = (id) => {
-  //   let formWithId = passwordArray.filter((item) => item.id == id)[0];
-  //   setForm(formWithId);
-  // };
-
-  // // Local Storage
-  // const deletePassword = (id) => {
-  //   let confirmation = confirm("Do you really want to delete the credentials?");
-  //   if (confirmation) {
-  //     let passwordArr = passwordArray.filter((item) => item.id != id);
-  //     setPasswordArray(passwordArr);
-  //     localStorage.setItem("passwords", JSON.stringify(passwordArr));
-  //     toast("Password deleted successfully!");
-  //   }
-  // };
-
-  /* -----------------------------------------------------------MongoDB---------------------------------------------------------- */
-
-  const getPasswords = async () => {
-    let res = await fetch("http://localhost:3003/passwords");
-    let passwords = await res.json();
-    setPasswordArray(passwords);
-  };
-
+  // Local Storage
   useEffect(() => {
-    getPasswords();
+    let passwords = localStorage.getItem("passwords");
+    if (passwords) {
+      setPasswordArray(JSON.parse(passwords));
+    }
   }, []);
 
-  const savePassword = async () => {
+  // Local Storage
+  const savePassword = () => {
     if (form.id) {
       let item = passwordArray.filter((item) => item.id == form.id)[0];
-      item.site = form.site;
       item.username = form.username;
       item.password = form.password;
       let passwordArr = [...passwordArray.filter((i) => i.id != form.id), item];
-      const res = await fetch("http://localhost:3003/passwords/" + form.id, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      });
       setPasswordArray(passwordArr);
       setForm(emptyForm);
-      toast("Password updated successfully!");
-    } else if (form.site && form.username && form.password) {
-      let formWithId = { ...form, id: uuidv4() }; //////// <--------
-      let res = await fetch("http://localhost:3003/save-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formWithId),
-      });
-      setPasswordArray([...passwordArray, formWithId]);
-      setForm(emptyForm);
+      localStorage.setItem("passwords", JSON.stringify(passwordArr));
       toast("Password saved successfully!");
-    } else {
-      toast("Please fill all the fields");
+    } else if (form.site && form.username && form.password) {
+      let formWithId = { ...form, id: uuidv4() };
+      setPasswordArray([...passwordArray, formWithId]);
+      localStorage.setItem(
+        "passwords",
+        JSON.stringify([...passwordArray, formWithId])
+      );
+      toast("Password saved successfully!");
     }
   };
 
+  // Local Storage
   const editPassword = (id) => {
     let formWithId = passwordArray.filter((item) => item.id == id)[0];
     setForm(formWithId);
   };
 
-  const deletePassword = async (id) => {
+  // Local Storage
+  const deletePassword = (id) => {
     let confirmation = confirm("Do you really want to delete the credentials?");
     if (confirmation) {
       let passwordArr = passwordArray.filter((item) => item.id != id);
-      let res = await fetch("http://localhost:3003/passwords/" + id, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
       setPasswordArray(passwordArr);
+      localStorage.setItem("passwords", JSON.stringify(passwordArr));
       toast("Password deleted successfully!");
     }
   };
+
+  /* -----------------------------------------------------------MongoDB---------------------------------------------------------- */
+
+  // const getPasswords = async () => {
+  //   let res = await fetch("http://localhost:3003/passwords");
+  //   let passwords = await res.json();
+  //   setPasswordArray(passwords);
+  // };
+
+  // useEffect(() => {
+  //   getPasswords();
+  // }, []);
+
+  // const savePassword = async () => {
+  //   if (form.id) {
+  //     let item = passwordArray.filter((item) => item.id == form.id)[0];
+  //     item.site = form.site;
+  //     item.username = form.username;
+  //     item.password = form.password;
+  //     let passwordArr = [...passwordArray.filter((i) => i.id != form.id), item];
+  //     const res = await fetch("http://localhost:3003/passwords/" + form.id, {
+  //       method: "PUT",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(item),
+  //     });
+  //     setPasswordArray(passwordArr);
+  //     setForm(emptyForm);
+  //     toast("Password updated successfully!");
+  //   } else if (form.site && form.username && form.password) {
+  //     let formWithId = { ...form, id: uuidv4() }; //////// <--------
+  //     let res = await fetch("http://localhost:3003/save-password", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(formWithId),
+  //     });
+  //     setPasswordArray([...passwordArray, formWithId]);
+  //     setForm(emptyForm);
+  //     toast("Password saved successfully!");
+  //   } else {
+  //     toast("Please fill all the fields");
+  //   }
+  // };
+
+  // const editPassword = (id) => {
+  //   let formWithId = passwordArray.filter((item) => item.id == id)[0];
+  //   setForm(formWithId);
+  // };
+
+  // const deletePassword = async (id) => {
+  //   let confirmation = confirm("Do you really want to delete the credentials?");
+  //   if (confirmation) {
+  //     let passwordArr = passwordArray.filter((item) => item.id != id);
+  //     let res = await fetch("http://localhost:3003/passwords/" + id, {
+  //       method: "DELETE",
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+  //     setPasswordArray(passwordArr);
+  //     toast("Password deleted successfully!");
+  //   }
+  // };
 
   /* ---------------------------------------------------------------------------------------------------------------------------- */
 
